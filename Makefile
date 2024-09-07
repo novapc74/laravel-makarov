@@ -12,4 +12,7 @@ bash:
 sail-info:
 	./vendor/bin/sail
 
+seed-user:
+	./vendor/bin/sail artisan db:seed --class=UserSeeder
+
 
