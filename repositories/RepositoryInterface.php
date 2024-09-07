@@ -1,10 +1,10 @@
 <?php
 
-namespace repositories;
+namespace Repositories;
 
 interface RepositoryInterface
 {
-    public function all(): array;
+    public function getAll(): array;
 
     public function find(int $id): ?object;
 

@@ -3,15 +3,15 @@
 namespace App\Models;
 
 use Laravel\Passport\HasApiTokens;
+use Illuminate\Database\Query\Builder;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Database\Query\Builder;
 
 /**
  * @method static Builder where($column, $operator = null, $value = null, $boolean = 'and')
  * @method static Builder create(array $attributes = [])
- * @method public Builder update(array $values)
+ * @method static Builder update(array $values)
  */
 class User extends Authenticatable
 {

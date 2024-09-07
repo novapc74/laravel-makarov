@@ -1,14 +1,13 @@
 <?php
 
-namespace repositories;
+namespace Repositories;
 
 use App\Models\User;
+use Illuminate\Database\Query\Builder as QueryBuilder;
 
 class UserRepository implements RepositoryInterface
 {
-    private const TABLE = 'users';
-
-    public function all(): array
+    public function getAll(): array
     {
         return User::all()->toArray();
     }
@@ -20,18 +19,18 @@ class UserRepository implements RepositoryInterface
 
     public function findOneBy(array $criteria = []): ?object
     {
-        return User::where(function ($query) use ($criteria) {
+        return User::where(function (QueryBuilder $query) use ($criteria) {
             foreach ($criteria as $key => $value) {
-                $query->orWhere($key, $value);
+                $query->orWhere($key, '=', $value);
             }
         })->take(1);
     }
 
     public function findBy(array $criteria): array
     {
-        return User::where(function ($query) use ($criteria) {
+        return User::where(function (QueryBuilder $query) use ($criteria) {
             foreach ($criteria as $key => $value) {
-                $query->orWhere($key, $value);
+                $query->orWhere($key, '=', $value);
             }
         })
             ->get()
