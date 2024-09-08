@@ -1,6 +1,6 @@
 <?php
 
-namespace Repositories;
+namespace App\Repositories;
 
 use App\Models\User;
 use Illuminate\Database\Query\Builder as QueryBuilder;

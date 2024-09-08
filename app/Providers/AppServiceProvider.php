@@ -2,8 +2,10 @@
 
 namespace App\Providers;
 
-use Laravel\Passport\Passport;
+use App\Repositories\RepositoryInterface;
+use App\Repositories\UserRepository;
 use Illuminate\Support\ServiceProvider;
+use Laravel\Passport\Passport;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -14,6 +16,7 @@ class AppServiceProvider extends ServiceProvider
     {
         Passport::ignoreRoutes();
         Passport::enablePasswordGrant();
+        $this->app->bind(RepositoryInterface::class, UserRepository::class);
     }
 
     /**

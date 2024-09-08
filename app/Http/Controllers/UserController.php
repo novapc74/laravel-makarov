@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Repositories\UserRepository;
 
 class UserController extends Controller
 {
@@ -11,8 +12,8 @@ class UserController extends Controller
         return User::paginate();
     }
 
-    public function show($id)
+    public function show(UserRepository $userRepository,$id)
     {
-        return User::find($id)->get(1);
+        return $userRepository->find($id);
     }
 }
