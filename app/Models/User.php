@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Laravel\Passport\HasApiTokens;
 use Illuminate\Database\Query\Builder;
 use Illuminate\Notifications\Notifiable;
@@ -12,6 +13,10 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
  * @method static Builder where($column, $operator = null, $value = null, $boolean = 'and')
  * @method static Builder create(array $attributes = [])
  * @method static Builder update(array $values)
+ * @method static Builder find(int $value)
+ * @method static Builder paginate($perPage = 15, $columns = ['*'], $pageName = 'page', $page = null, $total = null)
+ *
+
  */
 class User extends Authenticatable
 {
@@ -50,5 +55,10 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    public function partnership(): BelongsTo
+    {
+        return $this->belongsTo(Partnership::class);
     }
 }
