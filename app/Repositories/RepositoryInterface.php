@@ -2,6 +2,8 @@
 
 namespace App\Repositories;
 
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
+
 interface RepositoryInterface
 {
     public function getAll(): array;

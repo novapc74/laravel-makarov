@@ -3,25 +3,40 @@
 namespace App\Services\Controllers;
 
 use App\Repositories\UserRepository;
+use App\Services\Features\ParamTrait;
 
 readonly class UserControllerService
 {
+    use ParamTrait;
+
     public function __construct(private UserRepository $userRepository)
     {
     }
 
-    public function getData(array $params = []): array
+    public function getData(mixed $params = []): array
     {
-        if ([] !== $params && array_key_exists('id', $params)) {
-            return self::getUserById($params['id']);
-        }
+        return match (self::getParamType($params)) {
+            'id' => self::getUserById($params),
+            'all' => self::getAll(),
+            'filter' => self::getFilteredUser($params),
+            default => []
+        };
 
-        return [];
+    }
+
+    private function getFilteredUser(array $criteria): array
+    {
+        return $this->userRepository->findBy($criteria['filter']);
     }
 
     private function getUserById(int $id): array
     {
         return $this->userRepository->find($id);
+    }
+
+    private function getAll()
+    {
+        return $this->userRepository->getAll();
     }
 
 }
