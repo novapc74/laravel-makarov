@@ -16,7 +16,6 @@ class AppServiceProvider extends ServiceProvider
     {
         Passport::ignoreRoutes();
         Passport::enablePasswordGrant();
-        $this->app->bind(RepositoryInterface::class, UserRepository::class);
     }
 
     /**

@@ -12,9 +12,9 @@ class UserRepository implements RepositoryInterface
         return User::all()->toArray();
     }
 
-    public function find(int $id): ?object
+    public function find(int $id): ?array
     {
-        return User::where('id', $id)->get();
+        return User::where('id', $id)->get()->toArray()[0];
     }
 
     public function findOneBy(array $criteria = []): ?object
