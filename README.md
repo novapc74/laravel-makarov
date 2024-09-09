@@ -1,4 +1,4 @@
-### LARAVEL 11 - RESTfull API.
+### LARAVEL 11 - RESTful API.
 
 ***
 
@@ -23,15 +23,19 @@ make init
 ```
 make down
 ```
+
 ***
 [Database SCHEMA ](https://dbdiagram.io/d/makarov-laravel-66dc3ccaeef7e08f0efc1143)
 ***
-### Add users to DB
 
-```json lines
-make seed-user
+### Seed User & Partnership models to db
+
 ```
+make seed-db
+```
+
 ***
+
 ### Make Client
 
 ```json lines
