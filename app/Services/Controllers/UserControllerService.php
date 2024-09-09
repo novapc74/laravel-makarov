@@ -17,11 +17,10 @@ readonly class UserControllerService
     {
         return match (self::getParamType($params)) {
             'id' => self::getUserById($params),
-            'all' => self::getAll(),
+            'all' => self::getAllUsers(),
             'filter' => self::getFilteredUser($params),
             default => []
         };
-
     }
 
     private function getFilteredUser(array $criteria): array
@@ -34,9 +33,8 @@ readonly class UserControllerService
         return $this->userRepository->find($id);
     }
 
-    private function getAll()
+    private function getAllUsers(): array
     {
         return $this->userRepository->getAll();
     }
-
 }

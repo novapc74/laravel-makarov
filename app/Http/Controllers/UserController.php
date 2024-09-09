@@ -9,14 +9,13 @@ use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
-    public function index(Request $request, UserControllerService $service)
+    public function index(Request $request, UserControllerService $service): array
     {
-        $query = $request->all();
-
-        return $service->getData($query);
+        // ../api/user?filter[email][]=firstEmail@example.ru&filter[id][]=some_id
+        return $service->getData($request->all());
     }
 
-    public function show(UserControllerService $service, int $id)
+    public function show(UserControllerService $service, int $id): array
     {
         return $service->getData($id);
     }
