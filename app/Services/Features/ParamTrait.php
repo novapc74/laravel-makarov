@@ -1,0 +1,23 @@
+<?php
+
+namespace App\Services\Features;
+
+trait ParamTrait
+{
+    public static function getParamType(mixed $param = []): string
+    {
+        if (is_numeric($param)) {
+            return 'id';
+        }
+
+        if ([] === $param) {
+            return 'all';
+        }
+
+        if (is_array($param) && array_key_exists('filter', $param)) {
+            return 'filter';
+        }
+
+        return '';
+    }
+}
