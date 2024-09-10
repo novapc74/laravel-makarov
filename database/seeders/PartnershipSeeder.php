@@ -2,19 +2,26 @@
 
 namespace Database\Seeders;
 
+use App\Models\Partnership;
+use Database\Seeders\Features\CountTrait;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 
-class Partnership extends Seeder
+class PartnershipSeeder extends Seeder
 {
+    use WithoutModelEvents;
+    use CountTrait;
     /**
      * Run the database seeds.
      */
     public function run(): void
     {
+        if (self::isCount(Partnership::class)) {
+            return;
+        }
+
         array_map(
             fn() => self::setPartnershipData(Str::random(10)),
             range(0, 9)
