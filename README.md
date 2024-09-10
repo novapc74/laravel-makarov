@@ -2,12 +2,15 @@
 
 ***
 
-#### Requirements:
+[![PHP 8.2](https://img.shields.io/badge/php-8.2-%23777BB4?style=for-the-badge&logo=php&logoColor=black">)](https://www.php.net/releases/8_2_0.php)
+[![Composer 2.7.9](https://img.shields.io/badge/Composer-885630?style=for-the-badge&logo=Composer&logoColor=white>)](https://getcomposer.org/)
+[![Docker](https://img.shields.io/badge/Docker-2CA5E0?style=for-the-badge&logo=docker&logoColor=white)](https://www.docker.com/)
+[![Git](https://img.shields.io/badge/git-%23F05033.svg?style=for-the-badge&logo=git&logoColor=white)](https://git-scm.com/)
+***
+#### Requirement to add:
 
 ```
 Makefile
-Docker
-Git
 ```
 
 ***
