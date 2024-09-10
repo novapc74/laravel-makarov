@@ -3,6 +3,8 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Laravel\Passport\HasApiTokens;
 use Illuminate\Database\Query\Builder;
 use Illuminate\Notifications\Notifiable;
@@ -16,7 +18,6 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
  * @method static Builder find(int $value)
  * @method static Builder paginate($perPage = 15, $columns = ['*'], $pageName = 'page', $page = null, $total = null)
  *
-
  */
 class User extends Authenticatable
 {
@@ -60,5 +61,10 @@ class User extends Authenticatable
     public function partnership(): BelongsTo
     {
         return $this->belongsTo(Partnership::class);
+    }
+
+    public function orders(): HasMany
+    {
+        return $this->hasMany(Order::class);
     }
 }

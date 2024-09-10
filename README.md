@@ -6,7 +6,9 @@
 [![Composer 2.7.9](https://img.shields.io/badge/Composer-885630?style=for-the-badge&logo=Composer&logoColor=white>)](https://getcomposer.org/)
 [![Docker](https://img.shields.io/badge/Docker-2CA5E0?style=for-the-badge&logo=docker&logoColor=white)](https://www.docker.com/)
 [![Git](https://img.shields.io/badge/git-%23F05033.svg?style=for-the-badge&logo=git&logoColor=white)](https://git-scm.com/)
+[![Laravel 11](https://img.shields.io/badge/Laravel-FF2D20?style=for-the-badge&logo=laravel&logoColor=white)](https://laravel.com/docs/11.x#sail-on-linux)
 ***
+
 #### Requirement to add:
 
 ```
@@ -15,31 +17,27 @@ Makefile
 
 ***
 
-#### Start server
+[Database SCHEMA ](https://dbdiagram.io/d/makarov-laravel-66dc3ccaeef7e08f0efc1143)
+
+
+
+***
+
+#### Regular development:
 
 ```
+cd project_dir
+composer install
+
 make init
-```
+make seed-db
 
-#### Stop server
-
-```
 make down
 ```
 
 ***
-[Database SCHEMA ](https://dbdiagram.io/d/makarov-laravel-66dc3ccaeef7e08f0efc1143)
-***
 
-### Seed User & Partnership models to db
-
-```
-make seed-db
-```
-
-***
-
-### Make Client
+### Make client and authenticate:
 
 ```json lines
 // php artisan passport:client
@@ -52,5 +50,6 @@ make seed-db
     "password": "user password"
 }
 ```
+
 
 

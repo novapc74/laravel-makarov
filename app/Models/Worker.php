@@ -2,17 +2,18 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Query\Builder;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use phpseclib3\Crypt\Hash;
 
 /**
  * @method static Builder where($column, $operator = null, $value = null, $boolean = 'and')
  * @method static Builder create(array $attributes = [])
  * @method static Builder update(array $values)
  */
-class Partnership extends Model
+class Worker extends Model
 {
     use HasFactory;
 
@@ -23,15 +24,18 @@ class Partnership extends Model
      */
     protected $fillable = [
         'name',
+        'second_name',
+        'surname',
+        'phone'
     ];
 
-    public function users(): HasMany
+    public function orderWorkers(): HasMany
     {
-        return $this->hasMany(User::class);
+        return $this->hasMany(OrderWorker::class);
     }
 
-    public function orders(): HasMany
+    public function workerExOrderTypes(): HasMany
     {
-        return $this->hasMany(Order::class);
+        return $this->hasMany(WorkerExOrderType::class);
     }
 }
