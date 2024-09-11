@@ -2,6 +2,7 @@
 
 namespace App\Services\Controllers;
 
+use App\Exceptions\CustomException;
 use App\Repositories\UserRepository;
 use App\Services\Features\ParamTrait;
 
@@ -13,6 +14,9 @@ readonly class UserControllerService
     {
     }
 
+    /**
+     * @throws CustomException
+     */
     public function getData(mixed $params = []): array
     {
         return match (self::getParamType($params)) {
@@ -23,16 +27,25 @@ readonly class UserControllerService
         };
     }
 
+    /**
+     * @throws CustomException
+     */
     private function getFilteredUser(array $criteria): array
     {
         return $this->userRepository->findBy($criteria['filter']);
     }
 
+    /**
+     * @throws CustomException
+     */
     private function getUserById(int $id): array
     {
         return $this->userRepository->find($id);
     }
 
+    /**
+     * @throws CustomException
+     */
     private function getAllUsers(): array
     {
         return $this->userRepository->getAll();
