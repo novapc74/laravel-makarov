@@ -19,9 +19,6 @@ class UserController extends Controller
      */
     public function index(Request $request, UserControllerService $service): array
     {
-        Schema::disableForeignKeyConstraints();
-        Schema::dropIfExists('cache_locks');
-        Schema::enableForeignKeyConstraints();
         return $service->getData($request->all());
     }
 
