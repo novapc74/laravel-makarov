@@ -9,9 +9,9 @@ use Illuminate\Http\Request;
 
 class PartnershipController extends Controller
 {
-    public function index(): Collection
+    public function index(): \Illuminate\Pagination\LengthAwarePaginator|array
     {
-        return Partnership::all();
+        return Partnership::paginate();
     }
 
     /**

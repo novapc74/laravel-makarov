@@ -2,16 +2,20 @@
 
 namespace App\Http\Controllers;
 
-use App\Exceptions\CustomException;
 use App\Models\Worker;
+use App\Services\Controllers\WorkerControllerService;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
+use App\Exceptions\CustomException;
+use JetBrains\PhpStorm\ArrayShape;
 
 class WorkerController extends Controller
 {
-    public function index()
+    /**
+     * @throws CustomException
+     */
+    public function index(Request $request, WorkerControllerService $service): \Illuminate\Pagination\LengthAwarePaginator|array
     {
-        return Worker::all()->toArray();
+        return $service->getData($request->all());
     }
 
     /**
@@ -27,19 +31,15 @@ class WorkerController extends Controller
      */
     public function store(Request $request)
     {
-        dd($request->all());
+        //
     }
 
     /**
      * @throws CustomException
      */
-    public function show(int $id): Worker
+    public function show(WorkerControllerService $service, int $id): array
     {
-        if (!$worker = Worker::find($id)?->first()) {
-            throw new CustomException(sprintf('worker for id:%s not found', $id), 404);
-        }
-
-        return $worker;
+        return $service->getData($id);
     }
 
     /**
@@ -47,8 +47,7 @@ class WorkerController extends Controller
      */
     public function update(Request $request, Worker $worker)
     {
-        dd($request->all(), 'update', $worker);
-
+        //
     }
 
     /**

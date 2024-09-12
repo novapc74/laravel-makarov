@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Exceptions\CustomException;
 use App\Services\Controllers\UserControllerService;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 class UserController extends Controller
 {
@@ -12,7 +13,7 @@ class UserController extends Controller
     /**
      * @throws CustomException
      */
-    public function index(Request $request, UserControllerService $service): array
+    public function index(Request $request, UserControllerService $service): LengthAwarePaginator
     {
         return $service->getData($request->all());
     }

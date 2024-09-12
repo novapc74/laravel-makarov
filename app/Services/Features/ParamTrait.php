@@ -18,6 +18,10 @@ trait ParamTrait
             return 'filter';
         }
 
+        if (is_array($param) && array_key_exists('relation-filter', $param)) {
+            return 'relation-filter';
+        }
+
         return '';
     }
 }

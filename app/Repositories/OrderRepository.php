@@ -2,36 +2,39 @@
 
 namespace App\Repositories;
 
-use App\Exceptions\CustomException;
-use App\Models\User;
 use Exception;
+use App\Models\Order;
+use App\Exceptions\CustomException;
 use Illuminate\Database\Query\Builder as QueryBuilder;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 
-class UserRepository implements RepositoryInterface
+class OrderRepository implements RepositoryInterface
 {
+
     /**
      * @throws CustomException
      */
-    public function getAll(): \Illuminate\Pagination\LengthAwarePaginator
+    public function getAll(): LengthAwarePaginator
     {
         try {
-            return User::paginate();
+            return Order::with(['workerExOrderTypes', 'orderWorkers'])
+                ->paginate();
         } catch (Exception $e) {
-            throw new CustomException($e->getMessage());
+            throw new CustomException($e->getMessage() ?? 'error', 404);
         }
     }
 
     /**
      * @throws CustomException
      */
-    public function find(int $id): array
+    public function find(int $id): ?array
     {
         try {
-            return User::with(['partnership', 'orders'])->find($id)
+            return Order::with(['workerExOrderTypes', 'orderWorkers'])->find($id)
                 ?->toArray()
-                ?? throw new CustomException('user not found', 404);
-        } catch (Exception $exception) {
-            throw new CustomException($exception->getMessage(), 404);
+                ?? throw new CustomException('order not found', 404);
+        } catch (Exception $e) {
+            throw new CustomException($e->getMessage() ?? 'error', 404);
         }
     }
 
@@ -41,7 +44,7 @@ class UserRepository implements RepositoryInterface
     public function findBy(array $criteria): array
     {
         try {
-            return User::where(function ($query) use ($criteria) {
+            return Order::where(function ($query) use ($criteria) {
                 $keys = array_keys($criteria);
                 foreach ($keys as $key) {
                     foreach ($criteria[$key] as $value) {

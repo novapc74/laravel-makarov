@@ -5,6 +5,7 @@ namespace App\Services\Controllers;
 use App\Exceptions\CustomException;
 use App\Repositories\UserRepository;
 use App\Services\Features\ParamTrait;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 readonly class UserControllerService
 {
@@ -17,11 +18,11 @@ readonly class UserControllerService
     /**
      * @throws CustomException
      */
-    public function getData(mixed $params = []): array
+    public function getData(mixed $params = []): array|LengthAwarePaginator
     {
         return match (self::getParamType($params)) {
             'id' => self::getUserById($params),
-            'all' => self::getAllUsers(),
+            'all', '' => self::getAllUsers(),
             'filter' => self::getFilteredUser($params),
             default => []
         };
@@ -46,7 +47,7 @@ readonly class UserControllerService
     /**
      * @throws CustomException
      */
-    private function getAllUsers(): array
+    private function getAllUsers(): LengthAwarePaginator
     {
         return $this->userRepository->getAll();
     }

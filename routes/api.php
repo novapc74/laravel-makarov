@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\OrderController;
 use App\Http\Controllers\PartnershipController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
@@ -15,7 +16,7 @@ Route::group([
         Route::get('/users/{id}', 'show');
         Route::post('/users', 'store');
         Route::patch('/users/{id}', 'update');
-        Route::delete('/users/{id}', 'update');
+        Route::delete('/users/{id}', 'destroy');
     });
 
     Route::controller(PartnershipController::class)->group(function () {
@@ -23,7 +24,7 @@ Route::group([
         Route::get('/partnerships/{id}', 'show');
         Route::post('/partnerships', 'store');
         Route::patch('/partnerships/{id}', 'update');
-        Route::delete('/partnerships/{id}', 'update');
+        Route::delete('/partnerships/{id}', 'destroy');
     });
 
     Route::controller(WorkerController::class)->group(function () {
@@ -31,7 +32,15 @@ Route::group([
         Route::get('/workers/{id}', 'show');
         Route::post('/workers', 'store');
         Route::patch('/workers/{id}', 'update');
-        Route::delete('/workers/{id}', 'update');
+        Route::delete('/workers/{id}', 'destroy');
+    });
+
+    Route::controller(OrderController::class)->group(function () {
+        Route::get('/orders', 'index');
+        Route::get('/orders/{id}', 'show');
+        Route::post('/orders', 'store');
+        Route::patch('/orders/{id}', 'update');
+        Route::delete('/orders/{id}', 'destroy');
     });
 });
 
