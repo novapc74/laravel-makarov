@@ -27,7 +27,7 @@ return new class extends Migration
     {
         Schema::table('order_workers', function (Blueprint $table) {
             $table->dropForeign('order_id');
-            $table->dropColumn('worker_id');
+            $table->dropForeign('worker_id');
         });
 
         Schema::dropIfExists('order_workers');

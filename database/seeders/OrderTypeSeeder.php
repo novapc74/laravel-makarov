@@ -23,10 +23,6 @@ class OrderTypeSeeder extends Seeder
      */
     public function run(): void
     {
-        if (self::isCount(OrderType::class)) {
-            return;
-        }
-
         array_map(
             fn(string $type) => DB::table('order_types')->insert(['name' => $type]),
             self::ORDER_TYPES

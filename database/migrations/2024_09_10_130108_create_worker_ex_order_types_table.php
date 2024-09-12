@@ -12,8 +12,8 @@ return new class extends Migration {
     {
         Schema::create('worker_ex_order_types', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('worker_id')->constrained('workers');
-            $table->foreignId('order_type_id')->constrained('order_types');
+            $table->foreignId('worker_id')->nullable()->constrained('workers');
+            $table->foreignId('order_type_id')->nullable()->constrained('order_types');
             $table->timestamps();
         });
     }
@@ -25,7 +25,7 @@ return new class extends Migration {
     {
         Schema::table('worker_ex_order_types', function (Blueprint $table) {
             $table->dropForeign('worker_id');
-            $table->dropColumn('order_type_id');
+            $table->dropForeign('order_type_id');
         });
 
         Schema::dropIfExists('worker_ex_order_types');

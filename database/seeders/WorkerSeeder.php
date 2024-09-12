@@ -23,10 +23,6 @@ class WorkerSeeder extends Seeder
      */
     public function run(): void
     {
-        if (self::isCount(Worker::class)) {
-            return;
-        }
-
         for ($i = 0; $i < 10; $i++) {
             self::setWorkerData();
         }

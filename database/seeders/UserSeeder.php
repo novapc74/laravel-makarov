@@ -21,10 +21,6 @@ class UserSeeder extends Seeder
      */
     public function run(): void
     {
-        if (self::isCount(User::class)) {
-            return;
-        }
-
         $partnerships = Partnership::all()->toArray();
 
         array_map(

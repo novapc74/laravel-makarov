@@ -11,6 +11,8 @@ use Illuminate\Database\Query\Builder;
  * @method static Builder where($column, $operator = null, $value = null, $boolean = 'and')
  * @method static Builder create(array $attributes = [])
  * @method static Builder update(array $values)
+ * @method static Builder find(int $value)
+
  */
 class OrderType extends Model
 {

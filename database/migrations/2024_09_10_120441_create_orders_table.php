@@ -31,8 +31,8 @@ return new class extends Migration {
     {
         Schema::table('orders', function (Blueprint $table) {
             $table->dropForeign('order_type_id');
-            $table->dropColumn('user_id');
-            $table->dropColumn('partnership_id');
+            $table->dropForeign('user_id');
+            $table->dropForeign('partnership_id');
         });
 
         Schema::dropIfExists('orders');

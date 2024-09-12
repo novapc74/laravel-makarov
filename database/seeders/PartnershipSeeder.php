@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Partnership;
+use App\Models\User;
 use Database\Seeders\Features\CountTrait;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -18,10 +19,6 @@ class PartnershipSeeder extends Seeder
      */
     public function run(): void
     {
-        if (self::isCount(Partnership::class)) {
-            return;
-        }
-
         array_map(
             fn() => self::setPartnershipData(Str::random(10)),
             range(0, 9)
