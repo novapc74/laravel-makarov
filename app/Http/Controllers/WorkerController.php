@@ -2,17 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use App\Exceptions\CustomException;
 use App\Models\Worker;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class WorkerController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        //
+        return Worker::all()->toArray();
     }
 
     /**
@@ -24,27 +23,23 @@ class WorkerController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * POST
      */
     public function store(Request $request)
     {
-        //
+        dd($request->all());
     }
 
     /**
-     * Display the specified resource.
+     * @throws CustomException
      */
-    public function show(Worker $worker)
+    public function show(int $id): Worker
     {
-        //
-    }
+        if (!$worker = Worker::find($id)?->first()) {
+            throw new CustomException(sprintf('worker for id:%s not found', $id), 404);
+        }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Worker $worker)
-    {
-        //
+        return $worker;
     }
 
     /**
@@ -52,7 +47,8 @@ class WorkerController extends Controller
      */
     public function update(Request $request, Worker $worker)
     {
-        //
+        dd($request->all(), 'update', $worker);
+
     }
 
     /**

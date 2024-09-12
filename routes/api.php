@@ -1,17 +1,38 @@
 <?php
 
-use App\Http\Controllers\UserController;
-use Illuminate\Http\Request;
+use App\Http\Controllers\PartnershipController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\WorkerController;
 
 Route::group([
     'prefix' => 'api',
     'namespace' => '\App\Http\Controllers',
 ], function () {
-    Route::get('/user', [UserController::class, 'index']);
-//    ->middleware('auth:api');
-    Route::get('/user/{id}', [UserController::class, 'show']);
-//    ->middleware('auth:api');
+
+    Route::controller(UserController::class)->group(function () {
+        Route::get('/users', 'index')/*->middleware('auth:api')*/;
+        Route::get('/users/{id}', 'show');
+        Route::post('/users', 'store');
+        Route::patch('/users/{id}', 'update');
+        Route::delete('/users/{id}', 'update');
+    });
+
+    Route::controller(PartnershipController::class)->group(function () {
+        Route::get('/partnerships', 'index');
+        Route::get('/partnerships/{id}', 'show');
+        Route::post('/partnerships', 'store');
+        Route::patch('/partnerships/{id}', 'update');
+        Route::delete('/partnerships/{id}', 'update');
+    });
+
+    Route::controller(WorkerController::class)->group(function () {
+        Route::get('/workers', 'index');
+        Route::get('/workers/{id}', 'show');
+        Route::post('/workers', 'store');
+        Route::patch('/workers/{id}', 'update');
+        Route::delete('/workers/{id}', 'update');
+    });
 });
 
 
@@ -32,9 +53,9 @@ Route::group([
         'middleware' => 'web',
     ]);
 
-    $guard = config('passport.guard', null);
+    $guard = config('passport.guard');
 
-    Route::middleware(['web', $guard ? 'auth:'.$guard : 'auth'])->group(function () {
+    Route::middleware(['web', $guard ? 'auth:' . $guard : 'auth'])->group(function () {
         Route::post('/token/refresh', [
             'uses' => 'TransientTokenController@refresh',
             'as' => 'token.refresh',
