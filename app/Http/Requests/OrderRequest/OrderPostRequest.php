@@ -50,7 +50,7 @@ class OrderPostRequest extends FormRequest
                     ->get()
                     ->toArray();
 
-                if ([] == $partnership) {
+                if ([] !== $partnership) {
                     $validator->errors()->add(
                         'user_id',
                         'Указанный пользователь не может создавать заказы для выбранного партнера'

@@ -4,8 +4,9 @@ namespace App\Services\Controllers;
 
 use App\Exceptions\CustomException;
 use App\Http\Requests\OrderRequest\OrderPostRequest;
+use App\Http\Requests\OrderRequest\OrderUpdateRequest;
 use App\Models\Order;
-use App\Models\User;
+use App\Models\OrderWorker;
 use App\Repositories\OrderRepository;
 use App\Services\Features\ParamTrait;
 use Illuminate\Pagination\LengthAwarePaginator;
@@ -36,6 +37,37 @@ readonly class OrderControllerService
     /**
      * @throws CustomException
      */
+    public function update(OrderUpdateRequest $request): void
+    {
+        $validated = $request->validated();
+
+        DB::table('order_workers')->insert([
+            'amount' => $validated['amount'],
+            'order_id' => $validated['order_id'],
+            'worker_id' => $validated['worker_id'],
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
+
+
+        $orderWorker = OrderWorker::all()->last();
+
+        $orderData = [
+            'updated_at' => now(),
+            'status' => $validated['status'],
+        ];
+
+        $order = Order::find($validated['order_id']);
+        $order->update($orderData);
+
+        $order->orderWorkers()->save($orderWorker);
+
+        throw new CustomException(sprintf('order with id:%s updated' , $validated['order_id']), 201);
+    }
+
+    /**
+     * @throws CustomException
+     */
     public function store(OrderPostRequest $request): void
     {
         $validated = $request->validated();
@@ -43,8 +75,8 @@ readonly class OrderControllerService
         $currentData = now();
         $validated['created_at'] = $currentData;
         $validated['updated_at'] = $currentData;
-        try {
 
+        try {
             DB::table('orders')->insert($validated);
         } catch (Exception $exception) {
             throw new CustomException($exception->getMessage(), 422);

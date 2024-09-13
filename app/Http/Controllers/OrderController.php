@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\OrderRequest\OrderUpdateRequest;
 use Illuminate\Http\Request;
 use App\Exceptions\CustomException;
 use Illuminate\Pagination\LengthAwarePaginator;
@@ -32,5 +33,13 @@ class OrderController extends Controller
     public function store(OrderControllerService $service, OrderPostRequest $request): array
     {
         $service->store($request);
+    }
+
+    /**
+     * @throws CustomException
+     */
+    public function  update(OrderControllerService $service, OrderUpdateRequest $request): array
+    {
+        $service->update($request);
     }
 }

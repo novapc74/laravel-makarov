@@ -39,7 +39,7 @@ Route::group([
         Route::get('/orders', 'index');
         Route::get('/orders/{id}', 'show');
         Route::post('/orders', 'store');
-        Route::patch('/orders/{id}', 'update');
+        Route::patch('/orders', 'update');
         Route::delete('/orders/{id}', 'destroy');
     });
 });
