@@ -40,7 +40,7 @@ make down
 ### Make client and authenticate:
 
 ```json lines
-// php artisan passport:client
+// php artisan passport:client --password
 // POST http://0.0.0.0/api/passport/token
 {
     "grant_type": "password",
