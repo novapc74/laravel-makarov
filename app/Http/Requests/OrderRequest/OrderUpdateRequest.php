@@ -52,9 +52,13 @@ class OrderUpdateRequest extends FormRequest
                 $worker = DB::table('workers')->addSelect('workers.id')
                     ->leftJoin('worker_ex_order_types', 'workers.id', '=', 'worker_ex_order_types.worker_id')
                     ->where('worker_ex_order_types.order_type_id', '=', $orderType)
-                    ->where('workers.id', '=', $orderWorkerId);
+                    ->where('workers.id', '=', $orderWorkerId)
+                    ->get()
+                    ->toArray();
 
-                if ($worker) {
+//                dd($worker);
+
+                if ([] !== $worker) {
                     $validator->errors()->add(
                         'order_worker_id',
                         'Исполнитель не может выполнять такие заказы'

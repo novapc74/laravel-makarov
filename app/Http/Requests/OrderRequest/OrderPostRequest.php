@@ -33,8 +33,6 @@ class OrderPostRequest extends FormRequest
             'order_type_id' => 'required|exists:order_types,id',
             'user_id' => 'required|exists:users,id',
             'partnership_id' => 'required|exists:partnerships,id',
-            'created_at' => 'nullable|date',
-            'updated_at' => 'nullable|date'
         ];
     }
 
@@ -49,8 +47,8 @@ class OrderPostRequest extends FormRequest
                 $partnership = DB::table('partnerships')->leftJoin('users', 'partnerships.id', '=', 'users.partnership_id')
                     ->where('partnerships.id', '=', $partnerShipId)
                     ->where('users.id', '=', $userId)
-                    ->get()->toArray();
-
+                    ->get()
+                    ->toArray();
 
                 if ([] == $partnership) {
                     $validator->errors()->add(

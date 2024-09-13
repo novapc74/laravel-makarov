@@ -26,10 +26,11 @@ class OrderController extends Controller
         return $service->getData($id);
     }
 
+    /**
+     * @throws CustomException
+     */
     public function store(OrderControllerService $service, OrderPostRequest $request): array
     {
         $service->store($request);
-
-        return ['success' => true];
     }
 }

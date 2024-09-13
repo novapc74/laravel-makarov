@@ -4,9 +4,13 @@ namespace App\Services\Controllers;
 
 use App\Exceptions\CustomException;
 use App\Http\Requests\OrderRequest\OrderPostRequest;
+use App\Models\Order;
+use App\Models\User;
 use App\Repositories\OrderRepository;
 use App\Services\Features\ParamTrait;
 use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Facades\DB;
+use Mockery\Exception;
 
 readonly class OrderControllerService
 {
@@ -29,11 +33,24 @@ readonly class OrderControllerService
         };
     }
 
+    /**
+     * @throws CustomException
+     */
     public function store(OrderPostRequest $request): void
     {
         $validated = $request->validated();
 
-        dd($validated);
+        $currentData = now();
+        $validated['created_at'] = $currentData;
+        $validated['updated_at'] = $currentData;
+        try {
+
+            DB::table('orders')->insert($validated);
+        } catch (Exception $exception) {
+            throw new CustomException($exception->getMessage(), 422);
+        }
+
+        throw new CustomException(sprintf('order saved with id:%s', Order::all()->last()->getKey()), 201);
     }
 
 

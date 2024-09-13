@@ -17,7 +17,7 @@ class OrderRepository implements RepositoryInterface
     public function getAll(): LengthAwarePaginator
     {
         try {
-            return Order::with(['workerExOrderTypes', 'orderWorkers'])
+            return Order::with(['orderType', 'orderWorker', 'user', 'partnership'])
                 ->paginate();
         } catch (Exception $e) {
             throw new CustomException($e->getMessage() ?? 'error', 404);
