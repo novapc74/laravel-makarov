@@ -18,6 +18,10 @@ return new class extends Migration
             $table->foreignId('worker_id')->nullable()->constrained('workers');
             $table->timestamps();
         });
+
+        Schema::table('orders', function (Blueprint $table) {
+            $table->foreignId('order_worker_id')->nullable()->constrained('order_workers');
+        });
     }
 
     /**
@@ -28,6 +32,10 @@ return new class extends Migration
         Schema::table('order_workers', function (Blueprint $table) {
             $table->dropForeign('order_id');
             $table->dropForeign('worker_id');
+        });
+
+        Schema::table('orders', function (Blueprint $table) {
+            $table->dropForeign('order_worker_id');
         });
 
         Schema::dropIfExists('order_workers');

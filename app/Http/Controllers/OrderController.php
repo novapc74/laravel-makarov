@@ -12,7 +12,7 @@ class OrderController extends Controller
     /**
      * @throws CustomException
      */
-    public function index(Request $request, OrderControllerService $service): \Illuminate\Pagination\LengthAwarePaginator|array
+    public function index(Request $request, OrderControllerService $service): LengthAwarePaginator|array
     {
         return $service->getData($request->all());
     }
@@ -27,6 +27,6 @@ class OrderController extends Controller
 
     public function store(Request $request)
     {
-        dd($request->all());
+         $request->validate([]);
     }
 }
