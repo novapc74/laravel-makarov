@@ -3,8 +3,8 @@
 namespace App\Services\Controllers;
 
 use App\Exceptions\CustomException;
-use App\Repositories\WorkerRepository;
 use App\Services\Features\ParamTrait;
+use App\Repositories\WorkerRepository;
 use Illuminate\Pagination\LengthAwarePaginator;
 
 readonly class WorkerControllerService
@@ -18,7 +18,7 @@ readonly class WorkerControllerService
     /**
      * @throws CustomException
      */
-    public function getData(mixed $params = [])
+    public function getData(mixed $params = []): LengthAwarePaginator|array
     {
         return match (self::getParamType($params)) {
             'id' => self::getWorkerById($params),
@@ -37,7 +37,10 @@ readonly class WorkerControllerService
         return $this->workerRepository->findBy($params['filter']);
     }
 
-    private function relationFilter(array $params): array
+    /**
+     * @throws CustomException
+     */
+    private function relationFilter(array $params): LengthAwarePaginator
     {
         return $this->workerRepository->findWorkersByOrderTypeId($params['relation-filter']);
     }

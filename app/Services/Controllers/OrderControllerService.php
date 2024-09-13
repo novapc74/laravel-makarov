@@ -18,7 +18,7 @@ readonly class OrderControllerService
     /**
      * @throws CustomException
      */
-    public function getData(mixed $params = []): \Illuminate\Pagination\LengthAwarePaginator|array
+    public function getData(mixed $params = []): LengthAwarePaginator|array
     {
         return match (self::getParamType($params)) {
             'id' => self::getOrderById($params),

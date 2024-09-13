@@ -3,12 +3,10 @@
 namespace App\Repositories;
 
 use Exception;
-use App\Enum\Sql;
 use App\Models\Worker;
 use Illuminate\Support\Facades\DB;
 use App\Exceptions\CustomException;
 use Illuminate\Pagination\LengthAwarePaginator;
-use Illuminate\Database\Query\Builder as QueryBuilder;
 
 class WorkerRepository implements RepositoryInterface
 {
@@ -32,7 +30,8 @@ class WorkerRepository implements RepositoryInterface
     public function find(int $id): array
     {
         try {
-            return Worker::with(['workerExOrderTypes', 'orderWorkers'])->find($id)
+            return Worker::with(['workerExOrderTypes', 'orderWorkers'])
+                ->find($id)
                 ?->toArray()
                 ?? throw new CustomException('worker not found', 404);
         } catch (Exception $e) {
@@ -40,22 +39,27 @@ class WorkerRepository implements RepositoryInterface
         }
     }
 
-    public function findWorkersByOrderTypeId(string $idOrderTypesCollection): array
+    /**
+     * @throws CustomException
+     */
+    public function findWorkersByOrderTypeId(string $idOrderTypesCollection): LengthAwarePaginator
     {
-        $count = count(explode(',', $idOrderTypesCollection));
+        try {
+            $filteredWorkerId = DB::table('workers')->addSelect('workers.id')
+                ->leftJoin('worker_ex_order_types', 'workers.id', '=', 'worker_ex_order_types.worker_id')
+                ->whereNotIn('worker_ex_order_types.order_type_id', explode(',', $idOrderTypesCollection))
+                ->get()
+                ->toArray();
 
-        $sql = Sql::WORKERS_BY_ORDER_TYPES->value;
+            $workerIdCollection = array_map(fn($item) => $item->id, $filteredWorkerId);
 
-        $sql = str_replace(':idOrderTypesCollection', "$idOrderTypesCollection", $sql);
-        $sql = str_replace(':countOrderTypes', $count, $sql);
+            return Worker::with(['workerExOrderTypes', 'orderWorkers'])
+                ->whereIn('id', $workerIdCollection)
+                ->paginate();
 
-        $sqlResult = DB::select($sql);
-
-        foreach ($sqlResult as $value) {
-            $value->order_types = json_decode($value->order_types, true);
+        } catch (Exception $exception) {
+            throw new CustomException($exception->getMessage(), 404);
         }
-
-        return $sqlResult;
     }
 
     /**
