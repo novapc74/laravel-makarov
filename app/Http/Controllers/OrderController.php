@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Exceptions\CustomException;
 use Illuminate\Pagination\LengthAwarePaginator;
+use App\Http\Requests\OrderRequest\OrderPostRequest;
 use App\Services\Controllers\OrderControllerService;
 
 class OrderController extends Controller
@@ -25,8 +26,10 @@ class OrderController extends Controller
         return $service->getData($id);
     }
 
-    public function store(Request $request)
+    public function store(OrderControllerService $service, OrderPostRequest $request): array
     {
-         $request->validate([]);
+        $service->store($request);
+
+        return ['success' => true];
     }
 }

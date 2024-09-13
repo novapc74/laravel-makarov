@@ -2,8 +2,10 @@
 
 namespace App\Http\Requests\OrderRequest;
 
-use Illuminate\Contracts\Validation\ValidationRule;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Contracts\Validation\ValidationRule;
 
 class OrderUpdateRequest extends FormRequest
 {
@@ -12,7 +14,7 @@ class OrderUpdateRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -30,10 +32,35 @@ class OrderUpdateRequest extends FormRequest
             'status' => 'nullable|string|max:255',
             'order_type_id' => 'nullable|exists:order_types,id',
             'user_id' => 'nullable|exists:users,id',
-            'partnership_id' => 'required|exists:partnerships,id',
-            'order_worker_id' => 'nullable|exists:partnerships,id',
+            'partnership_id' => 'nullable|exists:partnerships,id',
+            'order_worker_id' => 'nullable|exists:order_workers,id',
             'created_at' => 'nullable|date',
             'updated_at' => 'nullable|date'
+        ];
+    }
+
+    /**
+     * Get the "after" validation callables for the request.
+     */
+    public function after(): array
+    {
+        return [
+            function (Validator $validator) {
+                $orderWorkerId = $this->input('order_worker_id');
+                $orderType = $this->input('order_type_id');
+
+                $worker = DB::table('workers')->addSelect('workers.id')
+                    ->leftJoin('worker_ex_order_types', 'workers.id', '=', 'worker_ex_order_types.worker_id')
+                    ->where('worker_ex_order_types.order_type_id', '=', $orderType)
+                    ->where('workers.id', '=', $orderWorkerId);
+
+                if ($worker) {
+                    $validator->errors()->add(
+                        'order_worker_id',
+                        'Исполнитель не может выполнять такие заказы'
+                    );
+                }
+            }
         ];
     }
 }
