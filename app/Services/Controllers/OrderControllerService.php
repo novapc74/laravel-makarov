@@ -7,6 +7,7 @@ use App\Http\Requests\OrderRequest\OrderPostRequest;
 use App\Http\Requests\OrderRequest\OrderUpdateRequest;
 use App\Models\Order;
 use App\Models\OrderWorker;
+use App\Models\Worker;
 use App\Repositories\OrderRepository;
 use App\Services\Features\ParamTrait;
 use Illuminate\Pagination\LengthAwarePaginator;
@@ -39,30 +40,25 @@ readonly class OrderControllerService
      */
     public function update(OrderUpdateRequest $request): void
     {
-         #TODO убавлять amount ордера ...
-
         $validated = $request->validated();
 
-//        dd($validated);
+        $order = Order::find($validated['order_id']);
+        $order->amount -= $validated['amount'];
 
-        DB::table('order_workers')->insert([
-            'amount' => $validated['amount'],
-            'order_id' => $validated['order_id'],
-            'worker_id' => $validated['worker_id'],
-            'created_at' => now(),
-            'updated_at' => now(),
-        ]);
+        $worker = Worker::find($validated['worker_id']);
 
-        $orderWorker = OrderWorker::all()->last();
+        $orderWorker = new OrderWorker();
+        $orderWorker->amount = $validated['amount'];
+        $orderWorker->created_at = now();
+        $orderWorker->updated_at = now();
+        $orderWorker->worker_id = $worker->id;
+        $orderWorker->order_id = $order->id;
+        $orderWorker->save();
 
-        $order = DB::table('orders')->find($validated['order_id']);
-        $order->amount -=  $validated['amount'];
-        $order->status = $validated['status'];
-        $order->updated_at = now();
+        $order->order_worker_id = $orderWorker->id;
+        $order->save();
 
-        $order->orderWorkers()->save($orderWorker);
-
-        throw new CustomException(sprintf('order with id:%s updated' , $validated['order_id']), 201);
+        throw new CustomException(sprintf('Order with id:%s updated', $validated['order_id']), 201);
     }
 
     /**
