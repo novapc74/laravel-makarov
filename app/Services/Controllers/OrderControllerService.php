@@ -43,6 +43,8 @@ readonly class OrderControllerService
 
         $validated = $request->validated();
 
+//        dd($validated);
+
         DB::table('order_workers')->insert([
             'amount' => $validated['amount'],
             'order_id' => $validated['order_id'],
@@ -51,17 +53,12 @@ readonly class OrderControllerService
             'updated_at' => now(),
         ]);
 
-
         $orderWorker = OrderWorker::all()->last();
 
-        $orderData = [
-            'updated_at' => now(),
-            'status' => $validated['status'],
-        ];
-
-        $order = Order::find($validated['order_id']);
-
-        $order->update($orderData);
+        $order = DB::table('orders')->find($validated['order_id']);
+        $order->amount -=  $validated['amount'];
+        $order->status = $validated['status'];
+        $order->updated_at = now();
 
         $order->orderWorkers()->save($orderWorker);
 

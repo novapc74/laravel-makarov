@@ -2,7 +2,10 @@
 
 namespace App\Http\Requests\OrderRequest;
 
+use App\Models\Order;
 use App\Models\OrderType;
+use App\Models\OrderWorker;
+use App\Models\Worker;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
@@ -38,11 +41,26 @@ class OrderUpdateRequest extends FormRequest
      */
     public function after(): array
     {
-        #TODO добавить проверку на amount ордера и на дублирование исполнителей ...
         return [
             function (Validator $validator) {
                 $orderId = $this->input('order_id');
                 $workerId = $this->input('worker_id');
+                $amount = $this->input('amount');
+
+                /**@var Order $order */
+                $order = Order::find($orderId);
+
+                $orderWorker = $order->orderWorkers()
+                    ->leftJoin('orders', 'order_workers.id', '=', 'orders.order_worker_id')
+                    ->get()
+                    ->firstWhere('worker_id', $workerId);
+
+                if ($orderWorker) {
+                    $validator->errors()->add(
+                        'worker_id',
+                        sprintf('Исполнитель с id:%s назначен ранее', $workerId)
+                    );
+                }
 
                 $orderType = DB::table('order_types')
                     ->leftJoin('orders', 'order_types.id', '=', 'orders.order_type_id')
@@ -56,7 +74,14 @@ class OrderUpdateRequest extends FormRequest
                 if ([] == $orderType) {
                     $validator->errors()->add(
                         'worker_id',
-                        sprintf('Исполнитель с id:%s не может выполнить такой заказ', $workerId, )
+                        sprintf('Исполнитель с id:%s не может выполнить такой заказ', $workerId,)
+                    );
+                }
+
+                if ($order->amount < $amount) {
+                    $validator->errors()->add(
+                        'amount',
+                        sprintf('Количество amount:%s превышает допустимое значение', $amount)
                     );
                 }
             }
