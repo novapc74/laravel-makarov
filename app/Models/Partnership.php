@@ -20,6 +20,9 @@ class Partnership extends Model
 {
     use HasFactory;
 
+    protected $table = 'partnerships';
+
+
     /**
      * The attributes that are mass assignable.
      *

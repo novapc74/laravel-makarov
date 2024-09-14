@@ -39,6 +39,8 @@ readonly class OrderControllerService
      */
     public function update(OrderUpdateRequest $request): void
     {
+         #TODO убавлять amount ордера ...
+
         $validated = $request->validated();
 
         DB::table('order_workers')->insert([
@@ -58,6 +60,7 @@ readonly class OrderControllerService
         ];
 
         $order = Order::find($validated['order_id']);
+
         $order->update($orderData);
 
         $order->orderWorkers()->save($orderWorker);
@@ -108,5 +111,14 @@ readonly class OrderControllerService
     private function getFilteredOrders(array $criteria): ?array
     {
         return $this->orderRepository->findBy($criteria['filter']);
+    }
+
+    /**
+     * @throws CustomException
+     */
+    public function delete(Order $order): array
+    {
+        #TODO проверяем связи, если нет привязки к исполнителям, можно удалять
+        throw new CustomException('not resolved', 201);
     }
 }

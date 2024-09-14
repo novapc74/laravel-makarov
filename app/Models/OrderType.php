@@ -20,6 +20,9 @@ class OrderType extends Model
 {
     use HasFactory;
 
+    protected $table = 'order_types';
+
+
     /**
      * The attributes that are mass assignable.
      *

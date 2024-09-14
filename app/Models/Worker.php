@@ -20,6 +20,9 @@ class Worker extends Model
 {
     use HasFactory;
 
+    protected $table = 'workers';
+
+
     /**
      * The attributes that are mass assignable.
      *

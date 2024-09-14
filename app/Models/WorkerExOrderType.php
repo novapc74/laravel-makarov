@@ -19,6 +19,7 @@ use Illuminate\Pagination\LengthAwarePaginator;
 class WorkerExOrderType extends Model
 {
     use HasFactory;
+    protected $table = 'worker_ex_order_types';
 
     public function worker(): BelongsTo
     {

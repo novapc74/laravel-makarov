@@ -38,6 +38,7 @@ class OrderUpdateRequest extends FormRequest
      */
     public function after(): array
     {
+        #TODO добавить проверку на amount ордера и на дублирование исполнителей ...
         return [
             function (Validator $validator) {
                 $orderId = $this->input('order_id');

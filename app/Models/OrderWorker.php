@@ -8,17 +8,13 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Query\Builder;
 use Illuminate\Pagination\LengthAwarePaginator;
 
-/**
- * @method static Builder where($column, $operator = null, $value = null, $boolean = 'and')
- * @method static Builder create(array $attributes = [])
- * @method static Builder update(array $values)
- * @method static Builder find(int $value)
- * @method static Builder count()
- * @method static LengthAwarePaginator paginate($perPage = 15, $columns = ['*'], $pageName = 'page', $page = null, $total = null)
- */
+
 class OrderWorker extends Model
 {
     use HasFactory;
+
+    protected $table = 'order_workers';
+
 
     /**
      * The attributes that are mass assignable.

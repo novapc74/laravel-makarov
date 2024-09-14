@@ -5,7 +5,6 @@ namespace App\Repositories;
 use Exception;
 use App\Models\Order;
 use App\Exceptions\CustomException;
-use Illuminate\Database\Query\Builder as QueryBuilder;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 
 class OrderRepository implements RepositoryInterface

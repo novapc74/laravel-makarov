@@ -5,7 +5,6 @@ namespace App\Repositories;
 use App\Exceptions\CustomException;
 use App\Models\User;
 use Exception;
-use Illuminate\Database\Query\Builder as QueryBuilder;
 
 class UserRepository implements RepositoryInterface
 {

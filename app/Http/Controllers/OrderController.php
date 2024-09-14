@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\OrderRequest\OrderUpdateRequest;
+use App\Models\Order;
 use Illuminate\Http\Request;
 use App\Exceptions\CustomException;
 use Illuminate\Pagination\LengthAwarePaginator;
@@ -41,5 +42,14 @@ class OrderController extends Controller
     public function  update(OrderControllerService $service, OrderUpdateRequest $request): array
     {
         $service->update($request);
+    }
+
+    /**
+     * @throws CustomException
+     */
+    public function  delete(OrderControllerService $service, Order $order): array
+    {
+        #TODO проверяем связи, если нет привязки к исполнителям, можно удалять
+        $service->delete($order);
     }
 }
