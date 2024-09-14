@@ -42,6 +42,7 @@ readonly class OrderControllerService
     {
         $validated = $request->validated();
 
+        #TODO ЗАКАТ СОЛНЦА ВРУЧНУЮ ... не разобрался как именно с моделями и их зависимостями Eloquent работает ...
         $order = Order::find($validated['order_id']);
         $order->amount -= $validated['amount'];
 
