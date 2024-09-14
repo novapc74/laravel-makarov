@@ -110,9 +110,17 @@ readonly class OrderControllerService
     /**
      * @throws CustomException
      */
-    public function delete(Order $order): array
+    public function delete(int $id): array
     {
-        #TODO проверяем связи, если нет привязки к исполнителям, можно удалять
-        throw new CustomException('not resolved', 201);
+        if (!$order = Order::find($id)) {
+            throw new CustomException('order not found', 404);
+        }
+        if ($order->orderWorkers()->count()) {
+            throw new CustomException('Заказ не может быть удален, исполнители уже назначены', 422);
+        }
+
+        $order->delete();
+
+        throw new CustomException(sprintf('Ордер с id:%s удален.', $id), 201);
     }
 }

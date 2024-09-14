@@ -39,7 +39,7 @@ class OrderController extends Controller
     /**
      * @throws CustomException
      */
-    public function  update(OrderControllerService $service, OrderUpdateRequest $request): array
+    public function update(OrderControllerService $service, OrderUpdateRequest $request): array
     {
         $service->update($request);
     }
@@ -47,9 +47,8 @@ class OrderController extends Controller
     /**
      * @throws CustomException
      */
-    public function  delete(OrderControllerService $service, Order $order): array
+    public function destroy(OrderControllerService $service, $id): array
     {
-        #TODO проверяем связи, если нет привязки к исполнителям, можно удалять
-        $service->delete($order);
+        $service->delete($id);
     }
 }
